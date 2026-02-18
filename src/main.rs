@@ -56,7 +56,6 @@ pub extern "C" fn main() {
 
     const DELAY_DURATION: u32 = 1000000;
 
-
     unsafe {
         // set DDR_B register for PIN_13 input
         // sbi 0x04, 5
