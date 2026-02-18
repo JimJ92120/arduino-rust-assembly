@@ -12,44 +12,55 @@ fn panic(_info: &PanicInfo) -> ! {
     loop {}
 }
 
+fn set_high(port: *mut u8, pin: u8) {
+    unsafe {
+        core::ptr::write_volatile(port, 1 << pin);
+    }
+}
+
+fn set_low(port: *mut u8, pin: u8) {
+    unsafe {
+        let port_value = core::ptr::read_volatile(port);
+        core::ptr::write_volatile(port, port_value & !(1 << pin));
+    }
+}
+
+fn delay(duration: u32) {
+    unsafe {
+        for _ in 1..duration {
+            asm!("nop");
+        }
+    }
+}
+
 #[unsafe(no_mangle)]
 pub extern "C" fn main() {
-    // PORT_B: 0x05
-    // DDR_B: 0x04
-    // PIN_13: 5 (in PORT_B)
-
-    // 1 second delay with `nop`
-    const DELAY: u32 = 1000000;
+    // offset not needed if using e.g asm!("sdi 0x05, $PIN")
+    const REGISTER_OFFSET: u8 = 0x20;
+    // for pins D8 to D13
+    const DDR_B: *mut u8 = (REGISTER_OFFSET | 0x04) as *mut u8;
+    // for pins D8 to D13
+    const PORT_B: *mut u8 = (REGISTER_OFFSET | 0x05) as *mut u8;
+    // PORT B pins start at 8
+    const PORT_B_PIN_OFFSET: u8 = 8;
+    const PIN_13: u8 = 13 ^ PORT_B_PIN_OFFSET; // 5
+    const DELAY_DURATION: u32 = 1000000;
 
     unsafe {
-        asm!{
-            // set pin 13 input
-            "sbi 0x04, 5",
-            // set register `r20` to 0
-            "clr r20",
-        };
-
+        // set DDR_B as input for PIN_13
+        // sbi 0x04, 5
+        core::ptr::write_volatile(DDR_B, 1 << PIN_13);
     }
 
     loop {
-        unsafe {
-            // on
-            asm!{
-                "sbi 0x05, 5"
-            };
+        // set PIN_3 in PORT_B high
+        // sbi 0x05, 5
+        set_high(PORT_B, PIN_13);
+        delay(DELAY_DURATION);
 
-            for _ in 1..DELAY {
-                asm!("nop");
-            }
-
-            // off
-            asm!{
-                "cbi 0x05, 5"
-            };
-
-            for _ in 1..DELAY {
-                asm!("nop");
-            }
-        }
+        // set PIN_13 in PORT_B low 
+        // cbi 0x05, 5
+        set_low(PORT_B, PIN_13);
+        delay(DELAY_DURATION);
     }
 }
