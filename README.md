@@ -1,4 +1,4 @@
-# arduino-asm
+# arduino-rust-assembly
 
 Example to run Assembly via Rust for Arduino Uno.
 
