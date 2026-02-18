@@ -77,3 +77,5 @@ avrdude -patmega328p -carduino -P/dev/ttyACM0 -b115200 -D -Uflash:w:target/avr-n
 - https://ww1.microchip.com/downloads/en/devicedoc/AVR-Instruction-Set-Manual-DS40002198A.pdf
 - https://github.com/Rahix/avr-hal/blob/main/arduino-hal/src/port/uno.rs#L124
 - https://github.com/Rahix/avr-hal/blob/main/mcu/atmega-hal/src/port.rs
+- https://github.com/Aronnok093/USART-Communication
+- https://content.arduino.cc/assets/Atmel-7810-Automotive-Microcontrollers-ATmega328P_Datasheet.pdf#page=275
