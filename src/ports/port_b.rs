@@ -1,19 +1,13 @@
-pub trait PortDefinition {
-    const PORT_ADDRESS: *mut u8;
-    const DDDR_ADDRESS: *mut u8;
-
-    fn get_current_value<T: PortDefinition>() -> u8 {
-        unsafe {
-            core::ptr::read_volatile(<T>::PORT_ADDRESS)
-        }
-    }
-}
+use crate::bits;
+use super::Port;
 
 pub struct PortB;
 
-impl PortDefinition for PortB {
+impl Port for PortB {
+    bits!();
+
     const PORT_ADDRESS: *mut u8 = (0x20 | 0x05) as *mut u8;
-    const DDDR_ADDRESS: *mut u8 = (0x20 | 0x04) as *mut u8;
+    const DDR_ADDRESS: *mut u8 = (0x20 | 0x04) as *mut u8;
 }
 
 #[allow(dead_code)]

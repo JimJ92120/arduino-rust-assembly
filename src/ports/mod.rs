@@ -1,28 +1,50 @@
-mod definitions;
+mod port_b;
 
-use definitions::PortDefinition;
-pub use definitions::PortB;
+pub use port_b::PortB;
 
-pub struct Port {}
-impl Port {
-    pub fn set_output<T: PortDefinition>(pin: u8) {
-        unsafe {
-            core::ptr::write_volatile(<T>::DDDR_ADDRESS, 1 << pin);
-        }
+pub trait Port {
+    const PORT_ADDRESS: *mut u8;
+    const DDR_ADDRESS: *mut u8;
+
+    // bits!();
+    fn set_bits(address: *mut u8, current_value: u8, value: u8);
+    fn unset_bits(address: *mut u8, current_value: u8, value: u8);
+    fn get_address_value(address: *mut u8) -> u8;
+
+    fn get_port_value() -> u8 {
+        Self::get_address_value(Self::PORT_ADDRESS)
     }
-    // unsafe fn set_input(pin: u8) {}
-
-    pub fn set_pin_high<T: PortDefinition>(pin: u8) {
-        unsafe {
-            core::ptr::write_volatile(<T>::PORT_ADDRESS, 1 << pin);
-        }
+    fn get_ddr_value() -> u8 {
+        Self::get_address_value(Self::DDR_ADDRESS)
     }
-    pub fn set_pin_low<T: PortDefinition>(pin: u8) {
-        unsafe {
-            core::ptr::write_volatile(
-                <T>::PORT_ADDRESS,
-                <T>::get_current_value::<T>() & !(1 << pin)
-            );
-        }
+
+    fn set_output(&self, pin: u8) {
+        Self::set_bits(
+            Self::DDR_ADDRESS,
+            Self::get_ddr_value(),
+            pin
+        );
+    }
+    fn set_input(pin: u8) {
+        Self::unset_bits(
+            Self::DDR_ADDRESS,
+            Self::get_address_value(Self::DDR_ADDRESS),
+            pin
+        );
+    }
+
+    fn set_pin_high(&self, pin: u8) {
+        Self::set_bits(
+            Self::PORT_ADDRESS,
+            Self::get_port_value(),
+            pin
+        );
+    }
+    fn set_pin_low(&self, pin: u8) {
+        Self::unset_bits(
+            Self::PORT_ADDRESS,
+            Self::get_address_value(Self::PORT_ADDRESS),
+            pin
+        );
     }
 }

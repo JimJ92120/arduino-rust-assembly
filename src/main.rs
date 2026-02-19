@@ -7,6 +7,7 @@
 use core::panic::PanicInfo;
 
 mod helpers;
+mod macros;
 mod ports;
 mod serial;
 
@@ -22,7 +23,10 @@ fn panic(_info: &PanicInfo) -> ! {
 pub extern "C" fn main() {   
     const DELAY_DURATION: u32 = 1000000;
 
-    Port::set_output::<PortB>(PortB::PIN_13);
+    let port_b = PortB {};
+
+    // Port::set_output::<PortB>(PortB::PIN_13);
+    port_b.set_output(PortB::PIN_13);
 
     Serial::set_baud_rate(57600);
     Serial::enable_transmissitter();
@@ -31,10 +35,10 @@ pub extern "C" fn main() {
         Serial::write_character('A');
         Serial::write_character('\n');
 
-        Port::set_pin_high::<PortB>(PortB::PIN_13);
+        port_b.set_pin_high(PortB::PIN_13);
         helpers::delay(DELAY_DURATION);
 
-        Port::set_pin_low::<PortB>(PortB::PIN_13);
+        port_b.set_pin_low(PortB::PIN_13);
         helpers::delay(DELAY_DURATION);
     }
 }
