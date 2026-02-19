@@ -16,7 +16,7 @@ use lib::{
     Port,
 };
 
-use ports::{PortB, PortD};
+use ports::{ PortB, PortD, PortC };
 use serial::Serial;
 
 #[panic_handler]
@@ -30,6 +30,7 @@ pub extern "C" fn main() {
 
     let port_b = PortB {};
     let port_d = PortD {};
+    let _port_c = PortC {};
 
     port_b.set_output(PortB::PIN_13);
     port_d.set_output(PortD::PIN_7);
