@@ -16,7 +16,7 @@ use lib::{
     Port,
 };
 
-use ports::PortB;
+use ports::{PortB, PortD};
 use serial::Serial;
 
 #[panic_handler]
@@ -29,9 +29,10 @@ pub extern "C" fn main() {
     const DELAY_DURATION: u32 = 1000000;
 
     let port_b = PortB {};
+    let port_d = PortD {};
 
     port_b.set_output(PortB::PIN_13);
-    port_b.set_output(PortB::PIN_8);
+    port_d.set_output(PortD::PIN_7);
 
     Serial::set_baud_rate(57600);
     Serial::enable_transmissitter();
@@ -41,11 +42,11 @@ pub extern "C" fn main() {
         Serial::write_string("hallo welt\n");
 
         port_b.set_pin_high(PortB::PIN_13);
-        port_b.set_pin_low(PortB::PIN_8);
+        port_d.set_pin_low(PortD::PIN_7);
         helpers::delay(DELAY_DURATION);
 
         port_b.set_pin_low(PortB::PIN_13);
-        port_b.set_pin_high(PortB::PIN_8);
+        port_d.set_pin_high(PortD::PIN_7);
         helpers::delay(DELAY_DURATION);
     }
 }
