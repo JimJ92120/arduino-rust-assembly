@@ -4,8 +4,9 @@
 #![feature(asm_experimental_arch)]
 #[cfg(target_arch = "avr")]
 
-use core::arch::asm;
 use core::panic::PanicInfo;
+
+mod helpers;
 
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
@@ -22,14 +23,6 @@ fn set_low(port: *mut u8, pin: u8) {
     unsafe {
         let port_value = core::ptr::read_volatile(port);
         core::ptr::write_volatile(port, port_value & !(1 << pin));
-    }
-}
-
-fn delay(duration: u32) {
-    unsafe {
-        for _ in 1..duration {
-            asm!("nop");
-        }
     }
 }
 
@@ -81,11 +74,11 @@ pub extern "C" fn main() {
         // set PIN_3 in PORT_B high
         // sbi 0x05, 5
         set_high(PORT_B, PIN_13);
-        delay(DELAY_DURATION);
+        helpers::delay(DELAY_DURATION);
 
         // set PIN_13 in PORT_B low 
         // cbi 0x05, 5
         set_low(PORT_B, PIN_13);
-        delay(DELAY_DURATION);
+        helpers::delay(DELAY_DURATION);
     }
 }
