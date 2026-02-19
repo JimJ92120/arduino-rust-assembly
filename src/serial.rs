@@ -1,11 +1,11 @@
-use crate::bits;
+use crate::lib::Bits;
 
 pub struct Serial;
 
+impl Bits for Serial {}
+
 #[allow(dead_code)]
 impl Serial {
-    bits!();
-
     const FREQUENCY: u32 = 16_000_000;
 
     const UDR0: *mut u8 = 0xC6 as *mut u8;

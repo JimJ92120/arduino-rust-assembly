@@ -1,11 +1,10 @@
-use crate::bits;
-use super::Port;
+use crate::lib::{ Bits, Port };
 
 pub struct PortB;
 
-impl Port for PortB {
-    bits!();
+impl Bits for PortB {}
 
+impl Port for PortB {
     const PORT_ADDRESS: *mut u8 = (0x20 | 0x05) as *mut u8;
     const DDR_ADDRESS: *mut u8 = (0x20 | 0x04) as *mut u8;
 }

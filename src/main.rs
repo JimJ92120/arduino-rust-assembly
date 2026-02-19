@@ -1,17 +1,22 @@
 #![no_std]
 #![no_main]
+#![allow(special_module_name)]
 
 #![feature(asm_experimental_arch)]
 #[cfg(target_arch = "avr")]
 
 use core::panic::PanicInfo;
 
-mod helpers;
-mod macros;
+mod lib;
 mod ports;
 mod serial;
 
-use ports::{ Port, PortB };
+use lib::{
+    helpers,
+    Port,
+};
+
+use ports::PortB;
 use serial::Serial;
 
 #[panic_handler]
