@@ -1,3 +1,5 @@
+// see https://content.arduino.cc/assets/Atmel-7810-Automotive-Microcontrollers-ATmega328P_Datasheet.pdf#page=72
+
 use crate::lib::{ Bits, Port };
 
 pub struct PortB;
