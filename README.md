@@ -68,7 +68,7 @@ cargo build --release
 
 # push to board
 # (may require `root` privilege to access USB)
-avrdude -patmega328p -carduino -P/dev/ttyACM0 -b115200 -D -Uflash:w:target/avr-none/arduino.elf
+avrdude -patmega328p -carduino -P/dev/ttyACM0 -b115200 -D -Uflash:w:target/avr-none/release/arduino.elf
 ```
 
 ---
