@@ -6,6 +6,8 @@ Example implements an input and an output GPIO pin to:
 - toggle (`high` / `low`) **GPIO 12** based on **GPIO 7** input state
 - send the current state (`led on` / `led off`) and action (`button pressed`) via UART
 
+**Note**: holding the button pressed will toggle the LED rapidly, additional logic and checks may be implemented to prevent this.
+
 ---
 
 # usage
