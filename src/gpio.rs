@@ -16,6 +16,6 @@ pub fn set_low(port_register: *mut u8, gpio_value: u8) {
     Address::unshift_left(port_register, gpio_value);
 }
 
-pub fn read_input(pin_register: *mut u8, gpio_value: u8) -> u8 {
+pub fn read_gpio_value(pin_register: *mut u8, gpio_value: u8) -> u8 {
     Address::read(pin_register) & (1 << gpio_value)
 }

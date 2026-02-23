@@ -36,7 +36,7 @@ pub extern "C" fn main() {
     let mut is_led_on: bool = false;
 
     loop {
-        if 0 == gpio::read_input(PortD::PIN_ADDRESS, BUTTON_PIN) {
+        if 0 == gpio::read_gpio_value(PortD::PIN_ADDRESS, BUTTON_PIN) {
             continue;
         }
 
