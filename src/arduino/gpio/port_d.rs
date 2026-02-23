@@ -1,12 +1,13 @@
 // see https://content.arduino.cc/assets/Atmel-7810-Automotive-Microcontrollers-ATmega328P_Datasheet.pdf#page=73
-
+use crate::REGISTER_OFFSET;
 use super::Port;
 
 pub struct PortD;
 
 impl Port for PortD {
-    const PORT_ADDRESS: *mut u8 = (0x20 | 0x0B) as *mut u8;
-    const DDR_ADDRESS: *mut u8 = (0x20 | 0x0A) as *mut u8;
+    const PORT_ADDRESS: *mut u8 = (REGISTER_OFFSET | 0x0B) as *mut u8;
+    const DDR_ADDRESS: *mut u8 = (REGISTER_OFFSET | 0x0A) as *mut u8;
+    const PIN_ADDRESS: *mut u8 = (REGISTER_OFFSET | 0x00) as *mut u8;
 }
 
 #[allow(dead_code)]

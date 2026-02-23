@@ -20,6 +20,8 @@ static BAUD_RATE: u32 = 57_600;
 static ENABLE_TRANSMISSION: bool = true;
 static ENABLE_RECEPTION: bool = true;
 
+static REGISTER_OFFSET: u8 = 0x20;
+
 #[unsafe(no_mangle)]
 pub extern "C" fn main() {   
     const DELAY_DURATION: u32 = 1_000_000;
