@@ -6,6 +6,7 @@ pub use port_b::PortB;
 pub use port_d::PortD;
 pub use port_c::PortC;
 
+#[allow(dead_code)]
 pub trait Port {
     const PORT_ADDRESS: *mut u8;
     const DDR_ADDRESS: *mut u8;
